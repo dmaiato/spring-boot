@@ -9,5 +9,4 @@ import com.javanauta.learningspring.infrastructure.entity.Address;
 // JpaRepository<Entidade, Tipo do ID>
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
-
 }

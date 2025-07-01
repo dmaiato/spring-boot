@@ -6,5 +6,4 @@ import com.javanauta.learningspring.infrastructure.entity.PhoneNumber;
 
 @Repository
 public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, Long> {
-
 }

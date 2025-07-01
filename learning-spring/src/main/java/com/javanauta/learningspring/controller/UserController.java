@@ -1,13 +1,18 @@
 package com.javanauta.learningspring.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javanauta.learningspring.business.UserService;
+import com.javanauta.learningspring.controller.dtos.UserDTO;
 import com.javanauta.learningspring.infrastructure.entity.User;
+import com.javanauta.learningspring.infrastructure.security.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +22,19 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
   private final UserService userService;
+  private final AuthenticationManager authenticationManager;
+  private JwtUtil jwtUtil;
 
   @PostMapping
   public ResponseEntity<User> saveUser(@RequestBody User user) {
     return ResponseEntity.ok(userService.saveUser(user));
+  }
+
+  @PostMapping("/login")
+  public String login(@RequestBody UserDTO userDTO) {
+    Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+
+    return jwtUtil.generateToken(authentication.getName());
   }
 }
