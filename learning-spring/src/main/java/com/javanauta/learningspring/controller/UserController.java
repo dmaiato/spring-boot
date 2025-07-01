@@ -23,7 +23,7 @@ public class UserController {
 
   private final UserService userService;
   private final AuthenticationManager authenticationManager;
-  private JwtUtil jwtUtil;
+  private final JwtUtil jwtUtil;
 
   @PostMapping
   public ResponseEntity<User> saveUser(@RequestBody User user) {
