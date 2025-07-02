@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.javanauta.learningspring.infrastructure.entity.User;
 import com.javanauta.learningspring.infrastructure.exceptions.ConflictException;
+import com.javanauta.learningspring.infrastructure.exceptions.ResourceNotFoundException;
 import com.javanauta.learningspring.infrastructure.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,14 @@ public class UserService {
 
   public boolean verifyExistingEmail(String email) {
     return userRepository.existsByEmail(email);
+  }
+
+  public User searchUserByEmail(String email) {
+    return userRepository.findByEmail(email)
+        .orElseThrow(() -> new ResourceNotFoundException("Email not found: " + email));
+  }
+
+  public void deleteUserByEmail(String email) {
+    userRepository.deleteByEmail(email);
   }
 }
